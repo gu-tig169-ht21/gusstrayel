@@ -6,17 +6,32 @@ import 'package:provider/provider.dart';
 import './model.dart';
 
 class MainView extends StatefulWidget {
+  final Task todo;
+  const MainView(this.todo, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return MainViewState();
-   }
+    return _MainViewState(todo);
   }
+}
 
-class MainViewState extends State<StatefulWidget> {
-  final textController = TextEditingController();
-  String inputTask = '';
+class _MainViewState extends State<MainView> {
+  late TextEditingController textController;
+  late bool done;
+  late String title;
+  late String empty = '';
+
+  _MainViewState(Task todo) {
+    title = todo.title;
+    done = todo.done;
+    textController = TextEditingController();
+
+    textController.addListener(() {
+      setState(() {
+        title = textController.text;
+      });
+    });
+  }
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -41,22 +56,27 @@ class MainViewState extends State<StatefulWidget> {
 
   Widget _nameLabel() {
     return Container(
-      margin: EdgeInsets.only(left: 16, top: 24),
+      margin: EdgeInsets.only(left: 30, top: 20, bottom: 20, right: 30),
       child: Text(
         "Create Task",
-        style: TextStyle(fontSize: 24.0,
-                color: Colors.white,
-                fontWeight: FontWeight.normal),
+        style: TextStyle(
+            fontSize: 24.0, color: Colors.white, fontWeight: FontWeight.normal),
       ),
     );
   }
 
   Widget _nameInput() {
     return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
+      margin: EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
       child: TextField(
+        onTap: () {
+          setState(() {
+            empty = '';
+          });
+        },
         controller: textController,
-        decoration: InputDecoration(hintText: "Name of task"),
+        decoration: InputDecoration(
+            hintText: "Name of task", border: OutlineInputBorder()),
       ),
     );
   }
@@ -67,20 +87,22 @@ class MainViewState extends State<StatefulWidget> {
       children: [
         OutlinedButton(
           style: ButtonStyle(
-            side: MaterialStateProperty.all(BorderSide(color: Colors.white,
-            style: BorderStyle.solid))
-          ),
-          
+              side: MaterialStateProperty.all(
+                  BorderSide(color: Colors.grey, style: BorderStyle.solid))),
           onPressed: () {
-            
             setState(() {
-              inputTask = textController.text;
-              Provider.of<MyState>(context, listen: false).addTask(
-                Task(todo: inputTask));
+              title = textController.text;
+              Provider.of<MyState>(context, listen: false)
+                  .addTask(Task(title: textController.text));
             });
-             Navigator.pop(context);
-          }, 
-          child: Text("Add"),    
+            Navigator.pop(
+                context,
+                Task(
+                  title: title,
+                  done: done,
+                ));
+          },
+          child: Text("Add"),
         ),
         Container(width: 40),
       ],

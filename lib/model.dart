@@ -1,39 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'InternetFetcher.dart';
 
 class Task {
-  String todo;
-  bool isDone;
+  String id;
+  String title;
+  bool done;
 
-  Task({required this.todo, this.isDone = false});
+  Task({this.id = '', required this.title, this.done = false});
 
-  void ifDone(item) {
-    isDone = !isDone;
+  static Map<String, dynamic> toJson(Task todo) {
+    return {'title': todo.title, 'done': todo.done, 'id': todo.id};
+  }
+
+  static Task fromJson(Map<String, dynamic> json) {
+    return Task(
+      id: json['id'],
+      title: json['title'],
+      done: json['done'],
+    );
   }
 }
 
 class MyState extends ChangeNotifier {
   List<Task> _list = [];
-  String _filterBy = "all";
-  String get filterBy => _filterBy;
+  String _filterBy = 'all';
+  List<Task> _filteredList = [];
   List<Task> get list => _list;
+  List<Task> get filteredList => _filteredList;
 
-  void addTask(Task item) {
-    _list.add(item);
+  String get filterBy => _filterBy;
+
+  Future getList() async {
+    List<Task> list = await InternetFetcher.getTasks();
+    _list = list;
     notifyListeners();
   }
 
-  void removeTask(Task item) {
-    _list.remove(item);
+  void addTask(Task title) async {
+    _list = await InternetFetcher.addTask(title);
+    _filteredList = _list;
     notifyListeners();
   }
 
-  void changeIsDone(Task item) {
-    item.ifDone(item);
+  void removeTaskItem(String id) async {
+    _list = await InternetFetcher.deleteTask(id);
+    _filteredList = _list;
     notifyListeners();
   }
 
-  void setFilterBy(String filterBy) {
-    _filterBy = filterBy;
+  changeIsDone(Task title) async {
+    title.done = !title.done;
+    await InternetFetcher.putTask(title);
+    notifyListeners();
+  }
+
+  void setFilterList(String filterBy) {
+    _list = _filteredList;
     notifyListeners();
   }
 }

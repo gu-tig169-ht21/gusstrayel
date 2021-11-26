@@ -1,42 +1,62 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './model.dart';
-import './main.dart';
+
 
 class TaskList extends StatelessWidget {
   final List<Task> list;
-
   TaskList(this.list);
 
   @override
-  Widget build(BuildContext) {
-    return ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return _taskItem(list[index], context);
-        });
+  Widget build(BuildContext context) {
+    return ListView(
+      children: list.map((todo) => _taskItem(todo, context)).toList());
+  }
+   // return Consumer<MyState>(
+     // builder: (context, state, child) => _taskList(state.filteredList),
+   // );
   }
 
-  Widget _taskItem(Task item, context) {
+ // Widget _taskList(_list) {
+   // return ListView.builder(
+    //  itemCount: _list.length,
+   //   itemBuilder: (BuildContext context, int index) {
+        // var task = list[index];
+    //    return _taskItem(_list[index], context);
+    //  },
+   // );
+//  }
+
+  Widget _taskItem(todo, context) {
     // var text = Text(item.todo, style: TextStyle(color: Colors.white));
     return Card(
       child: ListTile(
         leading: Checkbox(
-          value: item.isDone,
-          onChanged: (bool? isDone) {
-            Provider.of<MyState>(context, listen: false).changeIsDone(item);
+          value: todo.done,
+          onChanged: (bool? newValue) {
+            Provider.of<MyState>(context, listen: false)
+                .changeIsDone(todo);
           },
         ),
-        title: Text(item.todo, style: TextStyle(
-          decoration: item.isDone ? TextDecoration.lineThrough : TextDecoration.none
-        )),
+        title: Text(todo.title,
+            style: TextStyle(
+                decoration: todo.done
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none)),
         trailing: IconButton(
           icon: Icon(Icons.delete),
           onPressed: () {
-            Provider.of<MyState>(context, listen: false).removeTask(item);
+            var state = Provider.of<MyState>(context, listen: false);
+                state.removeTaskItem(todo.id);
           },
         ),
-      ),
-    );
+       ),
+     );
   }
-}
+
+  // void _getTasks() async {
+  //  var state = Provider.of<MyState>(context,)
+  // }
+

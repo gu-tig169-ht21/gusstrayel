@@ -3,18 +3,21 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import './SecondView.dart';
+import 'package:my_first_app/SecondView.dart';
+import './MainView.dart';
 import './model.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
   var state = MyState();
+  state.getList();
   runApp(
     ChangeNotifierProvider(
       create: (context) => state,
-    child: MyApp(),
+      child: MyApp(),
     ),
-    );
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,13 +28,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SecondView(),
-
-     
       theme: ThemeData(
-         brightness: Brightness.dark,
+        brightness: Brightness.dark,
         fontFamily: 'Raleway',
-     ),
-        );
+      ),
+    );
   }
-
 }
