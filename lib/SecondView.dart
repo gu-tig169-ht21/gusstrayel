@@ -55,6 +55,9 @@ class _SecondViewState extends State<SecondView> {
                     MainView(Task(id: '', title: '', done: false)),
               ),
             );
+            if (newTodo != null) {
+              Provider.of<MyState>(context, listen: false).addTask(newTodo);
+            }
           }),
     );
   }
