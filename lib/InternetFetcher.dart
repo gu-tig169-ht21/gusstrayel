@@ -7,8 +7,7 @@ const url = 'https://todoapp-api-pyq5q.ondigitalocean.app';
 
 class InternetFetcher {
   static Future<List<Task>> getTasks() async {
-    var response = await http.get(Uri.parse(
-        "$url/todos?key=$apiKey"));
+    var response = await http.get(Uri.parse("$url/todos?key=$apiKey"));
     String bodyString = response.body;
     var json = jsonDecode(bodyString);
 
@@ -21,8 +20,7 @@ class InternetFetcher {
     Map<String, dynamic> json = Task.toJson(todo);
     var bodyString = jsonEncode(json);
     var response = await http.post(
-      Uri.parse(
-          '$url/todos?key=$apiKey'),
+      Uri.parse('$url/todos?key=$apiKey'),
       body: bodyString,
       headers: {"Content-Type": "application/json"},
     );
@@ -36,8 +34,7 @@ class InternetFetcher {
     var bodyString = jsonEncode(json);
     var todoID = todo.id;
     var response = await http.put(
-      Uri.parse(
-          "$url/todos/$todoID?key=$apiKey"),
+      Uri.parse("$url/todos/$todoID?key=$apiKey"),
       body: bodyString,
       headers: {"Content-Type": "application/json"},
     );
@@ -47,8 +44,8 @@ class InternetFetcher {
   }
 
   static Future deleteTask(String todoID) async {
-    var response = await http.delete(Uri.parse(
-        "$url/todos/$todoID?key=$apiKey&_confirm=true"));
+    var response = await http
+        .delete(Uri.parse("$url/todos/$todoID?key=$apiKey&_confirm=true"));
     var bodyString = response.body;
     var list = jsonDecode(bodyString);
     return list.map<Task>((data) => Task.fromJson(data)).toList();

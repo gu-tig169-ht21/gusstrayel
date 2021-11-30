@@ -91,8 +91,6 @@ class _MainViewState extends State<MainView> {
           onPressed: () {
             setState(() {
               title = textController.text;
-              //  Provider.of<MyState>(context, listen: false)
-              //       .addTask(Task(id: '', title: title));
             });
             Navigator.pop(context, Task(title: title, done: done, id: ''));
           },

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 void main() async {
   var state = MyState();
   await state.getList();
+  
   runApp(
     ChangeNotifierProvider(
       create: (context) => state,

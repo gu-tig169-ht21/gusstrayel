@@ -10,6 +10,7 @@ class SecondView extends StatefulWidget {
   const SecondView({Key? key}) : super(key: key);
   @override
   _SecondViewState createState() => _SecondViewState();
+  
 }
 
 class _SecondViewState extends State<SecondView> {
