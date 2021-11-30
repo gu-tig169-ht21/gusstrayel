@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import './SecondView.dart';
 import 'package:provider/provider.dart';
 import './model.dart';
 
@@ -92,15 +91,10 @@ class _MainViewState extends State<MainView> {
           onPressed: () {
             setState(() {
               title = textController.text;
-              Provider.of<MyState>(context, listen: false)
-                  .addTask(Task(title: textController.text));
+              //  Provider.of<MyState>(context, listen: false)
+              //       .addTask(Task(id: '', title: title));
             });
-            Navigator.pop(
-                context,
-                Task(
-                  title: title,
-                  done: done,
-                ));
+            Navigator.pop(context, Task(title: title, done: done, id: ''));
           },
           child: Text("Add"),
         ),

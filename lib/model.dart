@@ -8,10 +8,14 @@ class Task {
   String title;
   bool done;
 
-  Task({this.id = '', required this.title, this.done = false});
+  Task({required this.id, required this.title, this.done = false});
+
+  void checkBoxChanged(Task todo) {
+    done = !done;
+  }
 
   static Map<String, dynamic> toJson(Task todo) {
-    return {'title': todo.title, 'done': todo.done, 'id': todo.id};
+    return {'id': todo.id, 'title': todo.title, 'done': todo.done};
   }
 
   static Task fromJson(Map<String, dynamic> json) {
@@ -26,9 +30,8 @@ class Task {
 class MyState extends ChangeNotifier {
   List<Task> _list = [];
   String _filterBy = 'all';
-  List<Task> _filteredList = [];
+
   List<Task> get list => _list;
-  List<Task> get filteredList => _filteredList;
 
   String get filterBy => _filterBy;
 
@@ -38,26 +41,24 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTask(Task title) async {
-    _list = await InternetFetcher.addTask(title);
-    _filteredList = _list;
+  void addTask(Task todo) async {
+    _list = await InternetFetcher.addTask(todo);
     notifyListeners();
   }
 
-  void removeTaskItem(String id) async {
-    _list = await InternetFetcher.deleteTask(id);
-    _filteredList = _list;
+  void removeTaskItem(Task todo) async {
+    _list = await InternetFetcher.deleteTask(todo.id);
     notifyListeners();
   }
 
-  changeIsDone(Task title) async {
-    title.done = !title.done;
-    await InternetFetcher.putTask(title);
+  void changeIsDone(Task todo, value) async {
+    todo.done = value;
+    _list = await InternetFetcher.putTask(todo);
     notifyListeners();
   }
 
-  void setFilterList(String filterBy) {
-    _list = _filteredList;
+  void setFilterBy(String filterBy) async {
+    _filterBy = filterBy;
     notifyListeners();
   }
 }
