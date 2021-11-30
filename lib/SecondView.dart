@@ -1,4 +1,3 @@
-// ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import './TaskList.dart';
@@ -10,7 +9,7 @@ class SecondView extends StatefulWidget {
   const SecondView({Key? key}) : super(key: key);
   @override
   _SecondViewState createState() => _SecondViewState();
-  
+
 }
 
 class _SecondViewState extends State<SecondView> {
@@ -56,9 +55,6 @@ class _SecondViewState extends State<SecondView> {
                     MainView(Task(id: '', title: '', done: false)),
               ),
             );
-            if (newTodo != null) {
-              Provider.of<MyState>(context, listen: false).addTask(newTodo);
-            }
           }),
     );
   }

@@ -60,6 +60,5 @@ class MyState extends ChangeNotifier {
   void setFilterBy(String filterBy) async {
     _filterBy = filterBy;
     notifyListeners();
-    
   }
 }
