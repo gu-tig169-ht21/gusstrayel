@@ -17,7 +17,6 @@ class TaskList extends StatelessWidget {
   }
 
   Widget _taskItem(Task todo, BuildContext context) {
-    // var text = Text(item.todo, style: TextStyle(color: Colors.white));
     return Card(
       child: ListTile(
         leading: Checkbox(
