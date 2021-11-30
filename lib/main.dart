@@ -3,15 +3,14 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:my_first_app/SecondView.dart';
-import './MainView.dart';
+import './SecondView.dart';
 import './model.dart';
-
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   var state = MyState();
-  state.getList();
+  await state.getList();
+  
   runApp(
     ChangeNotifierProvider(
       create: (context) => state,
