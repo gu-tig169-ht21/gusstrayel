@@ -52,3 +52,4 @@ class InternetFetcher {
     return list.map<Task>((data) => Task.fromJson(data)).toList();
   }
 }
+
