@@ -57,7 +57,7 @@ class _SecondViewState extends State<SecondView> {
             );
             if (newTodo != null) {
               Provider.of<MyState>(context, listen: false).addTask(newTodo);
-            }
+            } 
           }),
     );
   }
@@ -76,3 +76,5 @@ class _SecondViewState extends State<SecondView> {
     return list;
   }
 }
+
+

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'InternetFetcher.dart';
 
 class Task {
@@ -10,9 +8,6 @@ class Task {
 
   Task({required this.id, required this.title, this.done = false});
 
-  void checkBoxChanged(Task todo) {
-    done = !done;
-  }
 
   static Map<String, dynamic> toJson(Task todo) {
     return {'id': todo.id, 'title': todo.title, 'done': todo.done};
@@ -62,3 +57,4 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 }
+
